@@ -101,10 +101,9 @@ public class CategoryPage  extends TestBase {
         oSelect.selectByVisibleText("Name");
 
 
-        String actualSortByValue= "                            Name                        ";
-
         ProductsGrid productsGrid = PageFactory.initElements(driver, ProductsGrid.class);
-        String expctedSortByValue= productsGrid.getSelectedSortByOption().getText();
+        String actualSortByValue= productsGrid.getSelectedSortByOption().getText().trim();
+        String expctedSortByValue= "Name";
 
         assertThat("The Sort by option do not match", actualSortByValue, is (expctedSortByValue));
     }

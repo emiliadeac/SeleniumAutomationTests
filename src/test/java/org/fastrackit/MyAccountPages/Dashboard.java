@@ -17,19 +17,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class Dashboard extends TestBase {
 
-    private Object assertThat;
-    private Header header;
-    private LoginForm loginForm;
-    private MyDashboard myDashboard;
 
     @Test
     public void viewDashboardPage () throws InterruptedException {
+        Header header=PageFactory.initElements(driver, Header.class);
         header.getAccountLink().click();
         header.getLoginLink().click();
+
         LoginForm loginForm = PageFactory.initElements(driver, LoginForm.class);
         loginForm.getEmailField().sendKeys("emiliadeac95@gmail.com");
         loginForm.getPasswordField().sendKeys("asdfghjkl");
         loginForm.getLoginButton().click();
+
         String expectedMessage = "MY DASHBOARD";
         MyDashboard myDashboard = PageFactory.initElements(driver, MyDashboard.class);
         String actualMessage = myDashboard.getPageTitle().getText();
@@ -39,24 +38,24 @@ public class Dashboard extends TestBase {
 
     @Test
     public void clickEditContactLink(){
+        Header header=PageFactory.initElements(driver, Header.class);
         header.getAccountLink().click();
         header.getLoginLink().click();
+
         LoginForm loginForm = PageFactory.initElements(driver, LoginForm.class);
         loginForm.getEmailField().sendKeys("emiliadeac95@gmail.com");
         loginForm.getPasswordField().sendKeys("asdfghjkl");
         loginForm.getLoginButton().click();
+
         MyDashboard myDashboard = PageFactory.initElements(driver, MyDashboard.class);
         myDashboard.getEditContactLink().click();
+
         AccountInformation accountInformation= PageFactory.initElements(driver, AccountInformation.class);
         String actualRedirectedPage =accountInformation.getPageTitle().getText();
         String expectedRedirectedPage= "EDIT ACCOUNT INFORMATION";
         assertThat ("Page titles do not match", actualRedirectedPage, is (expectedRedirectedPage));
 
 
-
-
-
-
     }
 
 
@@ -64,9 +63,5 @@ public class Dashboard extends TestBase {
 
 
 
-    @Before
-    public void getObjectClass ()
-    {
-        header= PageFactory.initElements(driver, Header.class);
-    }
+
 }
