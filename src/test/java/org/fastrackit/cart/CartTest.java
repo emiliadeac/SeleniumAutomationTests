@@ -26,43 +26,50 @@ public class CartTest extends TestBase {
 
     @Test
     public void addProductToCart() {
-        driver.findElement(By.id("search")).sendKeys("vase" + Keys.ENTER);
-        //driver.findElement(By.name("q")).sendKeys("vase"+Keys.ENTER);
-        //driver.findElement(By.className("input-text")).sendKeys("vase"+Keys.ENTER);
-        driver.findElement(By.xpath("//div[@class='product-info' and ./descendant::*[text()='Herald Glass Vase']]//button[contains(@class, 'btn-cart')]")).getText();
+        By womenCategoryLocator = By.xpath("//a[text()='Women']");
+        By newArrivalsCategoryLocator = By.xpath("//a[text()='New Arrivals']");
+        mouseOverAndClickLast(Arrays.asList(womenCategoryLocator, newArrivalsCategoryLocator));
+
+        ProductsGrid productsGrid = PageFactory.initElements(driver, ProductsGrid.class);
+        productsGrid.getProductLink().click();
+
+        ProductPage productPage = PageFactory.initElements(driver, ProductPage.class);
+        productPage.getPinkColor().click();
+        productPage.getSize().click();
+        productPage.getAddToCart().click();
+
+        ShoppingCart shoppingCart=PageFactory.initElements(driver, ShoppingCart.class);
+        String actualSuccesMessage=shoppingCart.getSuccessMessage().getText();
+        String expectedSuccesMessage="Elizabeth Knit Top was added to your shopping cart.";
+
+        String actualProductAddedToCart= shoppingCart.getProductName().getText();
+        String expectedProductAddedToCart= "ELIZABETH KNIT TOP";
+        assertThat ("Wrong product was added in the cart", actualProductAddedToCart, is(expectedProductAddedToCart));
+        assertThat ("Incorrect message displayed", actualSuccesMessage, is(expectedSuccesMessage));
 
     }
 
-    //   @Test
-    //   public void addProductToBasket(WebDriver webdriver){
-//        Actions action = new action;
-//        // WebElement element = driver.findElement(By.xpath("//a[text()='Women']"));
-//        //2 Actions action = new Actions(webdriver);
-//        //WebElement we = webdriver.findElement(By.xpath("//a[text()='Women']"));
-//        //action.moveToElement(we).moveToElement(webdriver.findElement(By.xpath("//a[text()='New Arrivals']"))).click().build().perform();
-//        WebElement element = driver.findElement(By.xpath("//a[text()='Women']"));
-//
-//
-//        action.moveToElement(element).moveToElement(driver.findElement(By.xpath("//a[text()='New Arrivals']"))).click().build().perform();
-
-    //  }}
     @Test
     public void addProductWithSpecificSizeAndColorToCart() {
         By womenCategoryLocator = By.xpath("//a[text()='Women']");
         By newArrivalsCategoryLocator = By.xpath("//a[text()='New Arrivals']");
         mouseOverAndClickLast(Arrays.asList(womenCategoryLocator, newArrivalsCategoryLocator));
+
         ProductsGrid productsGrid = PageFactory.initElements(driver, ProductsGrid.class);
         productsGrid.getProductLink().click();
+
         ProductPage productPage = PageFactory.initElements(driver, ProductPage.class);
-        String colorname = driver.findElement(By.xpath("//a[contains(@id, \"swatch21\")]")).getAttribute("title");
-        String sizeOption = driver.findElement(By.xpath("//a[contains(@id,'swatch80')]")).getAttribute("title");
+        String colorname = productPage.getColorName().getAttribute("title");
+        String sizeOption = productPage.getSizeOption().getAttribute("title");
+
         productPage.getPinkColor().click();
         productPage.getSize().click();
         productPage.getAddToCart().click();
-        //String colorname2 = driver.findElement(By.xpath("///dl[@class='item-options']//dd[1]")).getText();
-        //String newColorname = driver.findElement(By.xpath("//dl[@class= \"item-options\" and ./following::*[text()= \"Color\"]]")).getAttribute("dd");
-        String newColorname = driver.findElement(By.xpath("//*[@id=\"shopping-cart-table\"]/tbody/tr/td[2]/dl/dd[1]")).getText();
-        String confirmationSizeOption = driver.findElement(By.xpath("//*[@id=\"shopping-cart-table\"]/tbody/tr/td[2]/dl/dd[2]")).getText();
+
+        ShoppingCart shoppingCart=PageFactory.initElements(driver, ShoppingCart.class);
+        String newColorname = shoppingCart.getColorName().getText();
+        String confirmationSizeOption = shoppingCart.getSize().getText();
+
         assertThat("The color do not match", colorname, is(newColorname));
         assertThat("The size do not match", sizeOption, is(confirmationSizeOption) );
     }
@@ -100,10 +107,10 @@ public class CartTest extends TestBase {
         checkoutPage.getContinueStep4().click();
         Thread.sleep(1000);
         checkoutPage.getContinueStep4().click();
-        Thread.sleep(5000);
+        Thread.sleep(3000);
         checkoutPage.getPlaceOrderButton().click();
         checkoutPage.getPlaceOrderButton().click();
-        Thread.sleep(5000);
+        Thread.sleep(3000);
         String expectedMessage = "YOUR ORDER HAS BEEN RECEIVED.";
         String actualMessage = driver.findElement(By.xpath("//div[@class=\"page-title\"]//h1")).getText();
         assertThat("Actual results is different than the expected", expectedMessage, is(actualMessage));

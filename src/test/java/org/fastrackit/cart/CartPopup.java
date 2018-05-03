@@ -23,15 +23,19 @@ public class CartPopup extends TestBase{
         By accessoriesCategoryLocator = By.xpath("//a[text()='Accessories']");
         By eyewearCategoryLocator = By.xpath("//a[text()='Eyewear']");
         mouseOverAndClickLast(Arrays.asList(accessoriesCategoryLocator, eyewearCategoryLocator));
+
         ProductsGrid productsGrid = PageFactory.initElements(driver, ProductsGrid.class);
         String expectedPrice = productsGrid.getProductPrice().getText();
         productsGrid.getAddToCartButton().click();
+
         Header header = PageFactory.initElements(driver, Header.class);
         header.getCartLink().click();
         String expectedCartNoItems = "1";
+
         PopupCart popupCart = PageFactory.initElements(driver, PopupCart.class);
         String actualPrice = popupCart.getProductPrice().getText();
         String actualCartNoItems = popupCart.getCartValue().getAttribute("value");
+
         assertThat("The value does not match", actualCartNoItems, is(expectedCartNoItems));
         assertThat("Product prices does not match", actualPrice, is(expectedPrice));
     }
@@ -40,15 +44,19 @@ public class CartPopup extends TestBase{
         By accessoriesCategoryLocator = By.xpath("//a[text()='Accessories']");
         By eyewearCategoryLocator = By.xpath("//a[text()='Eyewear']");
         mouseOverAndClickLast(Arrays.asList(accessoriesCategoryLocator, eyewearCategoryLocator));
+
         ProductsGrid productsGrid = PageFactory.initElements(driver, ProductsGrid.class);
         productsGrid.getAddToCartButton().click();
+
         Header header = PageFactory.initElements(driver, Header.class);
         header.getCartLink().click();
+
         PopupCart popupCart = PageFactory.initElements(driver, PopupCart.class);
         popupCart.getCartValue().clear();
         popupCart.getCartValue().sendKeys("2");
         Thread.sleep(1000);
         popupCart.getOkButton().click();
+
         String expectedQtn = "2";
         String actualQtn = popupCart.getCartValue().getAttribute("value");
 
@@ -60,10 +68,13 @@ public class CartPopup extends TestBase{
         By accessoriesCategoryLocator = By.xpath("//a[text()='Accessories']");
         By eyewearCategoryLocator = By.xpath("//a[text()='Eyewear']");
         mouseOverAndClickLast(Arrays.asList(accessoriesCategoryLocator, eyewearCategoryLocator));
+
         ProductsGrid productsGrid = PageFactory.initElements(driver, ProductsGrid.class);
         productsGrid.getAddToCartButton().click();
+
         Header header = PageFactory.initElements(driver, Header.class);
         header.getCartLink().click();
+
         PopupCart popupCart = PageFactory.initElements(driver, PopupCart.class);
         popupCart.getCartValue().clear();
         popupCart.getCartValue().sendKeys("2");
@@ -84,16 +95,19 @@ public class CartPopup extends TestBase{
             By accessoriesCategoryLocator = By.xpath("//a[text()='Accessories']");
             By eyewearCategoryLocator = By.xpath("//a[text()='Eyewear']");
             mouseOverAndClickLast(Arrays.asList(accessoriesCategoryLocator, eyewearCategoryLocator));
+
             ProductsGrid productsGrid = PageFactory.initElements(driver, ProductsGrid.class);
             productsGrid.getAddToCartButton().click();
+
             Header header = PageFactory.initElements(driver, Header.class);
             header.getCartLink().click();
+
             PopupCart popupCart = PageFactory.initElements(driver, PopupCart.class);
             popupCart.getCartValue().clear();
             popupCart.getCartValue().sendKeys("2");
             Thread.sleep(1000);
             popupCart.getOkButton().click();
-            Thread.sleep(5000);
+            Thread.sleep(2000);
 
             String price=popupCart.getProductPrice().getText();
             String[] priceParts =price.split(" ");
@@ -121,6 +135,7 @@ public class CartPopup extends TestBase{
 
             Header header = PageFactory.initElements(driver, Header.class);
             header.getCartLink().click();
+            Thread.sleep(2000);
 
             PopupCart popupCart = PageFactory.initElements(driver, PopupCart.class);
             popupCart.getEditItemLink().click();
@@ -132,7 +147,8 @@ public class CartPopup extends TestBase{
             productPage.getUpdateCartButton().click();
 
             header.getCartLink().click();
-            String actualCartValue= popupCart.getCartValue().getText();
+
+            String actualCartValue= popupCart.getCartValue().getAttribute("value");
             String expectedCartValue= "3";
             assertThat("The popup cart did not updated", actualCartValue, is(expectedCartValue));
 

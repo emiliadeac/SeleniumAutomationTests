@@ -10,13 +10,17 @@ public class MyDashboard {
     @FindBy (xpath= "//div[@class= \"box-title\"]//a")
     private WebElement editContactLink;
 
+    @FindBy (className = "hello")
+    private WebElement helloName;
+
+    public WebElement getHelloName() {
+        return helloName;
+    }
 
     public WebElement getEditContactLink() {
         return editContactLink;
     }
 
-    public WebElement getPageTitle() {
-        return pageTitle;
-    }
+    public WebElement getPageTitle() { return pageTitle; }
 
 }

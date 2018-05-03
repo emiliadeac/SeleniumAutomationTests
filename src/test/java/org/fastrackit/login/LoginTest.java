@@ -97,7 +97,7 @@ public class LoginTest  extends TestBase{
         header.getLogoutLink().click();
         String expectedLogoutMessage= "YOU ARE NOW LOGGED OUT";
         String actualLogoutMessage= driver.findElement(By.className("page-title")).getText();
-        assertThat("Logout messages do no match", expectedLogoutMessage, is(actualLogoutMessage));
+        assertThat("User is not logged out", expectedLogoutMessage, is(actualLogoutMessage));
     }
 
 

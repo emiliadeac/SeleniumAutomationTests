@@ -36,11 +36,12 @@ public class CategoryPage  extends TestBase {
         Select dispalyedProductsNumber = new Select(driver.findElement(By.xpath("//select[@title=\"Results per page\"]")));
         dispalyedProductsNumber.selectByVisibleText("24");
 
-        String expectedShowValue = "                        24                    ";
+        String expectedShowValue = "24";
         ProductsGrid productsGrid = PageFactory.initElements(driver, ProductsGrid.class);
         String actualShowValue = productsGrid.getSelectedShowValue().getText();
+        String trimmedValue= actualShowValue.trim();
 
-        assertThat("The show values do not match", actualShowValue, is(expectedShowValue));
+        assertThat("The show values do not match", trimmedValue, is(expectedShowValue));
     }
 
     @Test //3. Filter by color
@@ -183,10 +184,10 @@ public class CategoryPage  extends TestBase {
 
         ProductsGrid productsGrid= PageFactory.initElements(driver, ProductsGrid.class);
         String productsValue= productsGrid.getNumberOfProductsOnFilter().getText();
-        String [] split = productsValue.split("(");
+        String [] split = productsValue.split("\\(");
         String updatedValue=split[1];
-        //String [] removeSecondParanthese= updatedValue.split("\)");
-        //String expectedNumberOfProducts = removeSecondParanthese[0];
+        String [] removeSecondParanthese= updatedValue.split("\\)");
+        String expectedNumberOfProducts = removeSecondParanthese[0];
 
         productsGrid.getLeatherFilterLink().click();
 
@@ -195,7 +196,7 @@ public class CategoryPage  extends TestBase {
         String finalNumber= splitNumber [0];
         String actualProductNumber= finalNumber;
 
-        //assertThat("The products number do not match", actualProductNumber, is (expectedNumberOfProducts));
+        assertThat("The products number do not match", actualProductNumber, is (expectedNumberOfProducts));
 
     }
 

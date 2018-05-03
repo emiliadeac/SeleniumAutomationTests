@@ -5,7 +5,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class ProductPage {
     @FindBy(className= "option-pink")
-    private WebElement pinkColor; // get is neeeded (alt+ insert)
+    private WebElement pinkColor;
 
     @FindBy(className= "option-s")
     private WebElement size;
@@ -13,7 +13,7 @@ public class ProductPage {
     @FindBy(className = "add-to-cart-buttons")
     private WebElement addToCart;
 
-    @FindBy(xpath = "//input[@class=\"qty cart-item-quantity input-text\"]")
+    @FindBy(xpath = "//input[@id=\"qty\"]")
     private WebElement quantityField;
 
     @FindBy (xpath = "//button[@title=\"Update Cart\"]")
@@ -22,6 +22,19 @@ public class ProductPage {
     @FindBy(xpath = "//div[@class=\"product-name\"]//span[@class=\"h1\"]")
     private WebElement pageTitle;
 
+    @FindBy (xpath = "//a[contains(@id, \"swatch21\")]")
+    private WebElement colorName;
+
+    @FindBy (xpath = "//a[contains(@id,'swatch80')]")
+    private WebElement sizeOption;
+
+    public WebElement getSizeOption() {
+        return sizeOption;
+    }
+
+    public WebElement getColorName() {
+        return colorName;
+    }
 
     public WebElement getPageTitle() {
         return pageTitle;
